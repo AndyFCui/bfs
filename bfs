@@ -1,0 +1,62 @@
+from collections import defaultdict
+
+
+class Graph:
+    # Constructor
+    def __init__(self):
+        # Default dictionary to store graph
+        self.graph = defaultdict(list)
+        self.vertices = set()
+
+    # Function for adding an edge to graph
+    def add_edge(self, u: str, v: str) -> None:
+        self.graph[u].append(v)
+        # NOTE: uncomment the next line for undirected graph
+        # self.graph[v].append(u)
+
+        # Creating a set of all vertices for future use
+        self.vertices.add(u)
+        self.vertices.add(v)
+
+    # Function for print a BFS of graph
+    def bfs(self, s: str) -> None:
+        # Mark all vertices as not visited
+        visited = {}
+        for v in list(self.vertices):
+            visited[v] = False
+        # Create a queue for BFS
+        queue = []
+        # Mark the source vertex as visited and enqueue it
+        queue.append(s)
+        visited[s] = True
+        while queue:
+            # Dequeue a vertex from queue and print it
+            s = queue.pop(0)
+            # Get all adjacent vertices of the dequeued vertex s. If an
+            #    adjacent vertex has not been visited, mark it visited and enqueue it.
+            for i in self.graph[s]:
+                if not visited[i]:
+                    queue.append(i)
+                    visited[i] = True
+                    print('form', s, 'to', i)
+
+
+if __name__ == "__main__":
+    graph = Graph()
+    graph.add_edge('A', 'B')
+    graph.add_edge('A', 'C')
+    graph.add_edge('B', 'A')
+    graph.add_edge('B', 'D')
+    graph.add_edge('B', 'C')
+    graph.add_edge('C', 'A')
+    graph.add_edge('C', 'B')
+    graph.add_edge('C', 'D')
+    graph.add_edge('C', 'E')
+    graph.add_edge('D', 'B')
+    graph.add_edge('D', 'C')
+    graph.add_edge('D', 'E')
+    graph.add_edge('D', 'F')
+    graph.add_edge('E', 'C')
+    graph.add_edge('E', 'D')
+    graph.add_edge('F', 'D')
+    graph.bfs('A')
